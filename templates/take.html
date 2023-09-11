@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{team.name}} jamoasi uchun davomad olish
+{% endblock title %}
+
+{% block content %}
+    <div class="container mt-3">
+        <div class=" mt-3 ">
+            <h3 class="m-3" >{{team.name}} jamoasi uchun davomad olish</h3>
+            <form  method="post"> {% csrf_token %} 
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    
+                    <th scope="col">Ism Familiya</th>
+                    <th scope="col" >Davomad</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for worker in team.workers.all  %}
+                      
+                    
+                  <tr>
+                    <td>{{worker.first_name}} {{worker.last_name}}</td>
+                    <td>
+                        <div class="form-check">
+                            <input type="hidden" name="worker_{{worker.id}}" value="{{worker.id}}">
+                            <input name="is_attended_{{worker.id}}" class="form-check-input" type="checkbox"  id="flexCheckChecked" checked>
+                        </div>
+                    </td>
+                  </tr>
+                  {% endfor %}
+                
+                </tbody>
+              </table>
+
+            <button class="btn btn-primary"  type="submit">Tasdiqlash</button>
+            </form>
+        </div>
+    </div>
+  
+{% endblock content %}

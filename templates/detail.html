@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {{team.name}} jamoasining  davomati
+{% endblock title %}
+
+{% block content %}
+    {% now "Y-m-d" as today %}
+    <div class="container mt-3">
+        <div class=" mt-3 ">
+            <h3 class="m-3" >{{team.name}} jamoasining  davomati</h3>
+            <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    
+                    <th scope="col">Ism Familiya</th>
+                    {% for mark in team.workers.first.marks.all %}
+                    <th style="writing-mode:vertical-rl; text-orientation:mixed" >
+
+                      {% if today == mark.attendance.date|date:"Y-m-d" %}
+                      <small><a href="{% url 'update' mark.attendance.id %}">{{mark.attendance.date|date:"Y-m-d"}}</a></small>
+                      {% else %}
+                      <small>{{mark.attendance.date|date:"Y-m-d"}}</small>
+                      {% endif %}
+                      
+                    
+                    </th>
+                    {% endfor %}
+                    
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for worker in team.workers.all  %}
+                      
+                    
+                  <tr>
+                    <td>{{worker.first_name}} {{worker.last_name}}</td>
+                    {% for mark in worker.marks.all  %}
+                        {% if mark.is_attended %}
+                            <td style="height:5px; width: 5px;" ></td>
+                        {% else %}
+                            <td style="height:5px; width: 5px; background-color: black;" ></td>
+                        {% endif %}
+                    {% endfor %}
+                    
+                  </tr>
+                  {% endfor %}
+                
+                </tbody>
+              </table>
+              {% if is_att_taken %}
+                 <a href="#" class="btn btn-danger" >Davomad olib bo'lingan.</a>
+              {% else %}
+                  <a class="btn btn-primary" href="{% url 'take' team.id %}">Davomat olish</a>
+              {% endif %}
+        </div>
+    </div>
+  
+{% endblock content %}
